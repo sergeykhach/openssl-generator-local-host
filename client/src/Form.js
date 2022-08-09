@@ -1,8 +1,10 @@
 import React,{ useState, useEffect } from "react";
 import ReactiveButton from 'reactive-button';
 import GetAccount from "./connectToMetamask";
+import registerGetFingPrint from "./GetFingPrint";
 import Pahatex from "./SavePahatex";
 import Morali from "./sendtransaction";
+import registerSetFingPrint from "./SetFingPrint";
 
 function Form() {
 
@@ -21,6 +23,8 @@ function Form() {
   const [serial, setSerial] = useState([]);
   const [receiver,setReceiver] = useState("");
   const [knopka, setKnopka] = useState('idle');
+  const [abi, setAbi] = useState();
+  const [contractaddr,setContractaddr] = useState("");
   
 
   const options = [
@@ -116,6 +120,7 @@ function Form() {
               <input id="countryname" 
               type="text" 
               value={countryname}
+              maxLength = "2"
               onChange={(e) => setcountryname(e.target.value)}
               />
               <br/>
@@ -156,7 +161,7 @@ function Form() {
               <br/> 
               <label>Email Address:</label>
               <input id="email" 
-              type="text" 
+              type="email" 
               value={email}
               onChange={(e) => setemail(e.target.value)}
               />
@@ -264,6 +269,15 @@ function Form() {
           <input id="textsave" type="button" value="Click to connect to Metamask" onClick={() => GetAccount()}></input>
           <input id="textsave" type="button" value="Click to send a transaction" onClick={() => {receiver ? Morali(receiver) && setReceiver("") : alert("Input receiver's address!")}}></input> 
           
+        </div>
+        <div>
+          <input id="commonname" type="text" placeholder="Set contract address here" value={contractaddr} onChange={e => setContractaddr(e.target.value)}/>
+          <textarea id="serial"  rows="4" cols="70" placeholder="Set contract abi here" value={abi} onChange={e => setAbi(e.target.value)}></textarea>
+          <input id="textsave" type="button" value="Set Finger Print" onClick={() => contractaddr && abi ? registerSetFingPrint(thumbprint, contractaddr, abi): alert("Input deployed contract address and it's api \n at appropriate places!")}></input>
+          <input id="textsave" type="button" value="Get Finger Print" onClick={() => contractaddr && abi ? registerGetFingPrint(contractaddr, abi): alert("Input deployed contract address and it's api \n at appropriate places!")}></input>
+          <div id="lastFingPrint">
+
+          </div>
         </div>
       <br/>     
     </div>

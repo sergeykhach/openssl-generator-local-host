@@ -1,5 +1,5 @@
-import Web3 from 'https://cdn.esm.sh/v58/web3@1.6.1/es2021/web3.js';
-const web3 = new Web3(window.web3.currentProvider);
+//import Web3 from 'https://cdn.esm.sh/v58/web3@1.6.1/es2021/web3.js';
+//const web3 = new Web3(window.web3.currentProvider);
 const { ethereum } = window;
 //let accounts = [];
 
