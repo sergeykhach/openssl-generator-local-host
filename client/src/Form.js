@@ -26,6 +26,7 @@ function Form() {
   const [abi, setAbi] = useState();
   const [contractaddr,setContractaddr] = useState("");
   
+    
 
   const options = [
     {value: "1024", text: "--Choose an option--"},
@@ -276,14 +277,12 @@ function Form() {
       </div>
        <div>
           <container id="fingercont">
-            <h2 id="finggrvacq1">Set upper generated thumbprint to deployed smart contract via Metamask</h2>
+          <h2 id="finggrvacq1">Set upper generated thumbprint to deployed smart contract via Metamask</h2>
             <h2 id="finggrvacq2">or get your last set thumbprint from deployed smart contract</h2>
-            <input id="contaddr" type="text" placeholder="Smart contract's address (no spaces)" value={contractaddr} onChange={e => setContractaddr(e.target.value)}/>
-            <textarea id="abi"  rows="4" cols="70" placeholder="Set contract abi here" value={abi} onChange={e => setAbi(e.target.value)}></textarea>
-            <input id="setfing" type="button" value="Set Fingerprint" onClick={() => contractaddr && abi ? registerSetFingPrint(thumbprint, contractaddr, abi): alert("Input deployed contract address and it's api \n at appropriate places!")}></input>
-            <input id="getfing" type="button" value="Get Fingerprint" onClick={() => contractaddr && abi ? registerGetFingPrint(contractaddr, abi): alert("Input deployed contract address and it's api \n at appropriate places!")}></input>
-            <div id="lastFingPrint"></div>
-          </container>
+            <input id="setfing" type="button" value="Set Fingerprint" onClick={() => registerSetFingPrint(thumbprint, contractaddr, abi)}></input>
+            <input id="getfing" type="button" value="Get Fingerprint" onClick={() => registerGetFingPrint(contractaddr, abi)}></input>
+            <div id="lastFingPrint"></div>                       
+          </container>           
         </div>
         </div>
       <br/>     

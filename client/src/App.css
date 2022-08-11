@@ -177,11 +177,11 @@ container> #lab {
 }
 
 #setfing{
-  grid-column-start: 2;
-  grid-column-end: 2;
-  grid-row-start: row 10;
-  grid-row-end: 10;
-  justify-self: end;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: row 11;
+  grid-row-end: 11;
+  justify-self: start;
 }
 
 #getfing{
