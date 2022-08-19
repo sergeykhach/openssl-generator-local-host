@@ -1,10 +1,14 @@
-import React,{ useState, useEffect } from "react";
+import React,{ useState, useEffect, Children } from "react";
 import ReactiveButton from 'reactive-button';
 import GetAccount from "./connectToMetamask";
 import registerGetFingPrint from "./GetFingPrint";
 import Pahatex from "./SavePahatex";
 import Morali from "./sendtransaction";
 import registerSetFingPrint from "./SetFingPrint";
+import QrCode from "./qrcode";
+import QrCodeToSvg from "./qrToSvg";
+import PahaPng from "./SavePahaPng"
+import QrCodeToSvgSave from "./qrToSvgSave";
 
 function Form() {
 
@@ -23,8 +27,7 @@ function Form() {
   const [serial, setSerial] = useState([]);
   const [receiver,setReceiver] = useState("");
   const [knopka, setKnopka] = useState('idle');
-  const [abi, setAbi] = useState();
-  const [contractaddr,setContractaddr] = useState("");
+ 
   
     
 
@@ -84,6 +87,7 @@ function Form() {
       setThumbprint(resJson.certThumbrint);
       setSerial(resJson.certSerial);
 
+      
       /*
       let keyText = resJson.keyCode;
       let csrText = resJson.email;
@@ -100,19 +104,21 @@ function Form() {
         setSelected("");
         setMessage("Get or save your key, CSR and certificate with serial number and thumbprint below");
         
+         
       } /*else {
         setMessage("Some error occured");
       }*/
       
     } catch (err) {
       console.log(err);
-    }     
+    };
+ 
   };
 
   // loadinga grelu texteri poxaren ete undefined arjq linen textery
-  if (keyText === csrText === certText === undefined) return <div>Loading...</div>
+  if (keyText === csrText === certText === undefined) return <div>Loading...</div>;
 
-  //nkaruma sagh forman ira changerov
+   //nkaruma sagh forman ira changerov
   return (
     <div>  
       <div className = "Form">
@@ -221,7 +227,7 @@ function Form() {
             <textarea id="keyTxt"  rows="10" cols="70" value={keyText}></textarea>
             <input id="textsave" type="button" value="Click to save the text in the key file" onClick= {() => Pahatex("keyTxt")}></input></>
             : <> <br/>
-            <textarea id="keyTxt"  rows="10" cols="70" value={"Key file text"}></textarea>
+            {/*<textarea id="keyTxt"  rows="10" cols="70" value={"Key file text"}></textarea>*/}
             </>}
           </div>
         </div>   
@@ -231,7 +237,7 @@ function Form() {
             <textarea id="csrTxt"  rows="10" cols="70" value={csrText}></textarea>
             <input id="textsave" type="button" value="Click to save the text in the CSR file" onClick={() => Pahatex("csrTxt")}></input> </> 
             : <>
-            <textarea id="csrTxt"  rows="10" cols="70" value={"CSR file text"}></textarea>
+            {/*<textarea id="csrTxt"  rows="10" cols="70" value={"CSR file text"}></textarea>*/}
             </>}
             </div>  
         </div>  
@@ -239,9 +245,18 @@ function Form() {
           <div>{message ? <>
             <p id="keyHead">Here is the Certificate file text</p>
             <textarea id="certTxt"  rows="10" cols="70" value={certText}></textarea>
-            <input id="textsave" type="button" value="Click to save the text in the certificate file" onClick={() => Pahatex("certTxt")}></input></>
+            <input id="textsave" type="button" value="Click to save the text in the certificate file" onClick={() => Pahatex("certTxt")}></input>
+            <br/>
+            <p id="keyHead">Click on white empty area just below to get Certificate's text QRcode</p>
+            <canvas id="canvas" onClick={() => QrCode(certText)}></canvas>
+            <input id="textsave" type="button" value="Click to save the qrcode.png in your downloads" onClick={() => PahaPng("canvas")}></input><br/>
+            <p id="keyHead">Click on white empty area just below to get Certificate's text QRcode in SVG format</p>
+            <h5>(Will work only if RSA key of generated certificate is 2048)</h5>
+            <div id="canvassvg" onClick={() => QrCodeToSvg(certText)}></div>
+            <input id="textsave" type="button" value="Click to save the qrcode.svg in your downloads" onClick={() => QrCodeToSvgSave(certText)}></input>
+            </>
             : <>
-            <textarea id="certTxt"  rows="10" cols="70" value={"Certificate file text"}></textarea>
+            {/*<textarea id="certTxt"  rows="10" cols="70" value={"Certificate file text"}></textarea>*/}
             </>}
             </div> 
         </div>
@@ -251,7 +266,7 @@ function Form() {
             <textarea id="serial"  rows="4" cols="70" value={serial}></textarea>
             <input id="textsave" type="button" value="Click to save the text in the serial number file" onClick={() => Pahatex("serial")}></input></>
             : <>
-            <textarea id="serial"  rows="4" cols="70" value={"Certificate's serial number"}></textarea>
+            {/*<textarea id="serial"  rows="4" cols="70" value={"Certificate's serial number"}></textarea>*/}
             </>}
           </div> 
         </div>   
@@ -261,7 +276,7 @@ function Form() {
             <textarea id="tprint"  rows="4" cols="70" value={thumbprint}></textarea>
             <input id="textsave" type="button" value="Click to save the text in the thumbprint file" onClick={() => Pahatex("tprint")}></input></>
             : <>
-            <textarea id="tprint"  rows="4" cols="70" value={"Certificate's thumbprint"}></textarea>
+            {/*<textarea id="tprint"  rows="4" cols="70" value={"Certificate's thumbprint"}></textarea>*/}
             </>}
           </div> 
         </div>
@@ -279,8 +294,8 @@ function Form() {
           <container id="fingercont">
           <h2 id="finggrvacq1">Set upper generated thumbprint to deployed smart contract via Metamask</h2>
             <h2 id="finggrvacq2">or get your last set thumbprint from deployed smart contract</h2>
-            <input id="setfing" type="button" value="Set Fingerprint" onClick={() => registerSetFingPrint(thumbprint, contractaddr, abi)}></input>
-            <input id="getfing" type="button" value="Get Fingerprint" onClick={() => registerGetFingPrint(contractaddr, abi)}></input>
+            <input id="setfing" type="button" value="Set Fingerprint" onClick={() => registerSetFingPrint(thumbprint)}></input>
+            <input id="getfing" type="button" value="Get Fingerprint" onClick={() => registerGetFingPrint()}></input>
             <div id="lastFingPrint"></div>                       
           </container>           
         </div>

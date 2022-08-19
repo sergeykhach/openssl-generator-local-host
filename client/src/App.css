@@ -1,5 +1,6 @@
 .App{
   display: grid;
+  flex-flow: column wrap;
   grid-template-columns: 1fr;
   justify-items: center;
   justify-content: center;
@@ -36,7 +37,7 @@
   justify-self: end;
 }
 
- #keyTxt, #csrTxt, #certTxt, #tprint, #serial, #receiveraddr, #abi, #contaddr  { 
+ #keyTxt, #csrTxt, #certTxt, #tprint, #serial, #receiveraddr, #abi, #contaddr, #canvas, #canvassvg  { 
 
   background-color:white;
   font-size: 12px;
@@ -51,13 +52,13 @@
 #button, #textsave, #metam,  #trans, #contaddr, #receiveraddr, #setfing, #getfing { 
 
   background-color:white;
-  font-size: 18px;
+  font-size: 16px;
   font-family: arial;
   font-weight: bold;
   border:2px solid rgb(100, 5, 5);
   border-radius: 7px; 
   color:rgb(100, 5, 5); 
-  width: 300px;
+  width: 350px;
   height: auto;
  
 }
@@ -241,3 +242,23 @@ container> #lab {
   grid-row-end: 13;
   justify-self: center; 
 }
+
+#canvassvg  {
+  display: inline-block;
+}
+
+#canvassvg, #canvas  {
+height: 500px;
+width: 500px;
+min-height: 470px;
+min-width: 470px;
+padding: 0px;
+overflow: hidden;
+
+}
+#canvas  {
+    height: 470px;
+    width: 470px;
+    padding: 15px;
+  }
+
