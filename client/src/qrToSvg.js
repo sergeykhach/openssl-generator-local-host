@@ -16,7 +16,7 @@ export default function QrCodeToSvg(tx){
     },
     imageOptions: {
         crossOrigin: "anonymous",
-        margin: 0
+        margin: 0   
         
     }
     

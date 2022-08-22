@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, Children } from "react";
+import React,{ useState, useEffect} from "react";
 import ReactiveButton from 'reactive-button';
 import GetAccount from "./connectToMetamask";
 import registerGetFingPrint from "./GetFingPrint";
@@ -28,9 +28,6 @@ function Form() {
   const [receiver,setReceiver] = useState("");
   const [knopka, setKnopka] = useState('idle');
  
-  
-    
-
   const options = [
     {value: "1024", text: "--Choose an option--"},
     {value: "2048", text: "2048"},
@@ -120,7 +117,7 @@ function Form() {
 
    //nkaruma sagh forman ira changerov
   return (
-    <div>  
+    <div id="main">  
       <div className = "Form">
         <div id="generate">
           <form onSubmit={handleSubmit}>
@@ -216,12 +213,13 @@ function Form() {
                   height={null}
                   animation={true}
               />
-              <br/>       
+              <br/>
+              <br/>      
               <div className="message">{message ? <p>{message}</p> : null}</div>
             
-          </form>           
+      </form>           
       </div>  
-        <div>
+        <div id="takicontain">
           <div>{message ? <>
             <p id="keyHead">Here is the Key file text</p>
             <textarea id="keyTxt"  rows="10" cols="70" value={keyText}></textarea>
@@ -230,8 +228,8 @@ function Form() {
             {/*<textarea id="keyTxt"  rows="10" cols="70" value={"Key file text"}></textarea>*/}
             </>}
           </div>
-        </div>   
-        <div>
+          
+          
           <div>{message ? <>
             <p id="keyHead">Here is the CSR file text</p>
             <textarea id="csrTxt"  rows="10" cols="70" value={csrText}></textarea>
@@ -239,9 +237,8 @@ function Form() {
             : <>
             {/*<textarea id="csrTxt"  rows="10" cols="70" value={"CSR file text"}></textarea>*/}
             </>}
-            </div>  
-        </div>  
-        <div>
+          </div>  
+                   
           <div>{message ? <>
             <p id="keyHead">Here is the Certificate file text</p>
             <textarea id="certTxt"  rows="10" cols="70" value={certText}></textarea>
@@ -258,9 +255,8 @@ function Form() {
             : <>
             {/*<textarea id="certTxt"  rows="10" cols="70" value={"Certificate file text"}></textarea>*/}
             </>}
-            </div> 
-        </div>
-        <div>
+          </div> 
+        
           <div>{message ? <>
             <p id="keyHead">Here is the Certificate's serial number </p>
             <textarea id="serial"  rows="4" cols="70" value={serial}></textarea>
@@ -269,8 +265,7 @@ function Form() {
             {/*<textarea id="serial"  rows="4" cols="70" value={"Certificate's serial number"}></textarea>*/}
             </>}
           </div> 
-        </div>   
-        <div>
+          
           <div>{message ? <>
             <p id="keyHead">Here is the Certificate's thumbprint</p>
             <textarea id="tprint"  rows="4" cols="70" value={thumbprint}></textarea>
@@ -279,21 +274,21 @@ function Form() {
             {/*<textarea id="tprint"  rows="4" cols="70" value={"Certificate's thumbprint"}></textarea>*/}
             </>}
           </div> 
-        </div>
-        <br/>
+          </div> 
+          <br/>
         <div>
       </div>
       <div id="metamask">        
         <container id="metacont">
           <h2 id="metagrvacq">Connect to Metamask and send transaction</h2>
-          <input id="metam" type="button" value="Click to connect to Metamask" onClick={() => GetAccount()}></input>           <input id="trans" type="button" value="Click to send a transaction" onClick={() => {receiver ? Morali(receiver) && setReceiver("") : alert("Input receiver's address!")}}></input> 
+          <input id="metam" type="button" value="Click to connect to Metamask" onClick={() => GetAccount()}></input>      
+          <input id="trans" type="button" value="Click to send a transaction" onClick={() => {receiver ? Morali(receiver) && setReceiver("") : alert("Input receiver's address!")}}></input> 
           <input id="receiveraddr" type="text" placeholder="Receiver's address (no spaces)" value={receiver} onChange={e => setReceiver(e.target.value)}/>
         </container>            
       </div>
        <div>
           <container id="fingercont">
-          <h2 id="finggrvacq1">Set upper generated thumbprint to deployed smart contract via Metamask</h2>
-            <h2 id="finggrvacq2">or get your last set thumbprint from deployed smart contract</h2>
+            <h2 id="finggrvacq1">Set upper generated thumbprint to deployed smart contract via Metamask or get your last set thumbprint from deployed smart contract</h2>
             <input id="setfing" type="button" value="Set Fingerprint" onClick={() => registerSetFingPrint(thumbprint)}></input>
             <input id="getfing" type="button" value="Get Fingerprint" onClick={() => registerGetFingPrint()}></input>
             <div id="lastFingPrint"></div>                       
