@@ -29,7 +29,7 @@ app.post("/key", (req, res) => {
         let organizationUnit = obj.organizationunitname;
         let commonName = obj.commonname;
         let emailAddress = obj.email;
-        let datas = {};
+        let datas = [];
 
         function createCsr() {
             exec(`openssl req -new -newkey rsa:${RSA} -nodes -out ${fileCsr} -keyout ${fileKey} -subj "/C=${countryName}/ST=${stateOrProvinceName}/L=${localityName}/O=${organizationName}/OU=${organizationUnit}/CN=${commonName}/emailAddress=${emailAddress}"`, (error, stdout, stderr) => {
@@ -73,7 +73,7 @@ app.post("/key", (req, res) => {
                     return;
                     }
                     console.log(`stdout:\n${stdout}`);
-                    datas.Thumbprint = (`${stdout}`);
+                    datas.push(`${stdout}`);
                 });
             }
             
@@ -89,7 +89,7 @@ app.post("/key", (req, res) => {
                     return;
                     }
                     console.log(`stdout:\n${stdout}`);
-                    datas.SerialNumber = (`${stdout}`);
+                    datas.push(`${stdout}`);
                 });
             }
 
@@ -150,17 +150,17 @@ app.post("/key", (req, res) => {
                                
                    await kardaFile(fileKey)
                     .then((readKey) => {
-                        datas.Key = (readKey);
+                        datas.push(readKey);
                     })
                         
                    await kardaFile(fileCsr)
                    .then((readCsr) => {
-                    datas.Csr = (readCsr);
+                    datas.push(readCsr);
                     })
                         
                    await kardaFile(fileCert)
                    .then((readCert) => {
-                    datas.Cert = (readCert);
+                    datas.push(readCert);
                     })
                         
                    await jnjiFile (fileCsr)
@@ -174,11 +174,11 @@ app.post("/key", (req, res) => {
             
             verj().then((datas) => {
             res.send ({
-                certThumbrint: datas.Thumbprint,
-                certSerial:datas.SerialNumber,
-                keyText: datas.Key,
-                csrText: datas.Csr,
-                certText: datas.Cert
+                certThumbrint: datas[0],
+                certSerial:datas[1],
+                keyText: datas[2],
+                csrText: datas[3],
+                certText: datas[4]
                 })                        
                 
             });           
