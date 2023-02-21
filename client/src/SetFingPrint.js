@@ -8,7 +8,7 @@ const web3 = new Web3(Web3.givenProvider || 'wss://some.local-or-remote.node:854
 console.log(web3);
 
 let accounts =[];
-let contractAddrOwn = "0x2d28Dafd034fAB7eF324Bbb659D669263b326373";
+let contractAddrOwn = "0x757F7a4589377872C08d2BbcA334d5640f187b85";
 let abiOwn =  [
 	{
 		"inputs": [
@@ -36,7 +36,7 @@ let abiOwn =  [
 		"stateMutability": "view",
 		"type": "function"
 	}
-] 
+]
 ;
 
 //Smart contract functions

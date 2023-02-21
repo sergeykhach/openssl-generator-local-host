@@ -196,8 +196,7 @@ app.post("/key", (req, res) => {
         console.log(buf);
 
         //stegh karanq dnenq ipfsNFT_JS.js bayc qani vor pti, ipfs install aneinq chem dnum, miangamic serverum kanem
-        res.send({ipfsURI_CertNFT: 'ipfs://'+'QmTvo1rJSB9zR6r6wGb2wczrdjmzZgCMeYJ6y5Pufst2uv'});
-
+        res.send({ipfsURI_CertNFT: 'ipfs.io/ipfs/'+'kkkkkkk'});
         });
     
 

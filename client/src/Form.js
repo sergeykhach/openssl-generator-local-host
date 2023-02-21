@@ -9,6 +9,7 @@ import QrCode from "./qrcode";
 import QrCodeToSvg from "./qrToSvg";
 import PahaPng from "./SavePahaPng"
 import QrCodeToSvgSave from "./qrToSvgSave";
+import QrCodeToNFT from "./qrToNft";
 
 function Form() {
 
@@ -27,6 +28,7 @@ function Form() {
   const [serial, setSerial] = useState([]);
   const [receiver,setReceiver] = useState("");
   const [knopka, setKnopka] = useState('idle');
+  
  
   const options = [
     {value: "1024", text: "--Choose an option--"},
@@ -40,6 +42,10 @@ function Form() {
   const [selected, setSelected] = useState(options[0].value);
   const handleChange = event => {
        setSelected(event.target.value);
+  };
+//clear all funkcia
+  const refreshPage = ()=>{
+    window.location.reload();
   };
 
   //vor handle submiti popoxutyany mi arajin angma reakcia ta
@@ -58,7 +64,7 @@ function Form() {
       e.preventDefault();
       onClickHandler();
       try {
-        let res = await fetch("http://localhost:60000/", {
+        let res = await fetch("http://localhost:60000/key", {
           method: "POST",
           body: JSON.stringify({
               countryname: countryname,
@@ -115,6 +121,7 @@ function Form() {
   // loadinga grelu texteri poxaren ete undefined arjq linen textery
   if (keyText === csrText === certText === undefined) return <div>Loading...</div>;
 
+  
    //nkaruma sagh forman ira changerov
   return (
     <div id="main">  
@@ -182,7 +189,8 @@ function Form() {
                 ))}
               </select>
               <br/>
-              </container> 
+              
+              </container>
               
                <ReactiveButton
                   buttonState={knopka}
@@ -214,10 +222,11 @@ function Form() {
                   animation={true}
               />
               <br/>
-              <br/>      
+              <br/>  
+                  
               <div className="message">{message ? <p>{message}</p> : null}</div>
             
-      </form>           
+    </form>           
       </div>  
         <div id="takicontain">
           <div>{message ? <>
@@ -245,12 +254,16 @@ function Form() {
             <input id="textsave" type="button" value="Click to save the text in the certificate file" onClick={() => Pahatex("certTxt")}></input>
             <br/>
             <p id="keyHead">Click on white empty area just below to get Certificate's text QRcode</p>
-            <canvas id="canvas" onClick={() => QrCode(certText)}></canvas>
+            <canvas id="canvas" onClick={() => QrCode(certText)}></canvas>            
             <input id="textsave" type="button" value="Click to save the qrcode.png in your downloads" onClick={() => PahaPng("canvas")}></input><br/>
+            <input id="textsave" type="button" value="Click to save QRcode as NFT" onClick={() => QrCodeToNFT()}></input>
+            <a href={"https://testnets.opensea.io/account"} target="_blank" > <div id="ipfs_URI"></div> </a>
+            
             <p id="keyHead">Click on white empty area just below to get Certificate's text QRcode in SVG format</p>
             <h5>(Will work only if RSA key of generated certificate is 2048)</h5>
             <div id="canvassvg" onClick={() => QrCodeToSvg(certText)}></div>
             <input id="textsave" type="button" value="Click to save the qrcode.svg in your downloads" onClick={() => QrCodeToSvgSave(certText)}></input>
+            
             </>
             : <>
             {/*<textarea id="certTxt"  rows="10" cols="70" value={"Certificate file text"}></textarea>*/}
@@ -280,6 +293,7 @@ function Form() {
       </div>
       <div id="metamask">        
         <container id="metacont">
+          <button id="clearAll" onClick={refreshPage}>Clear all</button>
           <h2 id="metagrvacq">Connect to Metamask and send transaction</h2>
           <input id="metam" type="button" value="Click to connect to Metamask" onClick={() => GetAccount()}></input>      
           <input id="trans" type="button" value="Click to send a transaction" onClick={() => {receiver ? Morali(receiver) && setReceiver("") : alert("Input receiver's address!")}}></input> 
