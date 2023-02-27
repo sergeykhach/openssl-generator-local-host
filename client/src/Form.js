@@ -53,12 +53,22 @@ function Form() {
       handleSubmit();
   }, []);
 
+  //loadingi mi hatvacna, knopka+setknopka+reactbatony hashvi mej chi takiny
+  const onClickHandler = () => {
+    setKnopka('loading');   
+    setTimeout(() => {
+        if (message !== undefined)
+         {setKnopka('success')};        
+    }, 8000);
+  }
+ /* 
   const onClickHandler = () => {
     setKnopka('loading');
     setTimeout(() => {
         setKnopka('success');
     }, 8000);
   }
+*/
 
   let handleSubmit = async (e) => {
       e.preventDefault();
@@ -106,21 +116,22 @@ function Form() {
         setemail("");
         setSelected("");
         setMessage("Get or save your key, CSR and certificate with serial number and thumbprint below");
-        
-         
-      } /*else {
-        setMessage("Some error occured");
-      }*/
+      }
+     /*    
+       else {
+        setMessage("Some error occured")};
+     */
       
     } catch (err) {
       console.log(err);
     };
- 
+     
   };
 
+  /*
   // loadinga grelu texteri poxaren ete undefined arjq linen textery
-  if (keyText === csrText === certText === undefined) return <div>Loading...</div>;
-
+  if (keyText === csrText === certText === undefined) { <div>Loading...</div>};
+  */
   
    //nkaruma sagh forman ira changerov
   return (
@@ -247,8 +258,8 @@ function Form() {
             {/*<textarea id="csrTxt"  rows="10" cols="70" value={"CSR file text"}></textarea>*/}
             </>}
           </div>  
-                   
-          <div>{message ? <>
+
+         <div>{message ? <>
             <p id="keyHead">Here is the Certificate file text</p>
             <textarea id="certTxt"  rows="10" cols="70" value={certText}></textarea>
             <input id="textsave" type="button" value="Click to save the text in the certificate file" onClick={() => Pahatex("certTxt")}></input>
@@ -257,19 +268,18 @@ function Form() {
             <canvas id="canvas" onClick={() => QrCode(certText)}></canvas>            
             <input id="textsave" type="button" value="Click to save the qrcode.png in your downloads" onClick={() => PahaPng("canvas")}></input><br/>
             <input id="textsave" type="button" value="Click to save QRcode as NFT" onClick={() => QrCodeToNFT()}></input>
-            <a href={"https://testnets.opensea.io/account"} target="_blank" > <div id="ipfs_URI"></div> </a>
+            <a href={"https://testnets.opensea.io/account"} target="_blank" rel="noreferrer"> <div id="ipfs_URI"></div> </a>
             
             <p id="keyHead">Click on white empty area just below to get Certificate's text QRcode in SVG format</p>
             <h5>(Will work only if RSA key of generated certificate is 2048)</h5>
             <div id="canvassvg" onClick={() => QrCodeToSvg(certText)}></div>
             <input id="textsave" type="button" value="Click to save the qrcode.svg in your downloads" onClick={() => QrCodeToSvgSave(certText)}></input>
-            
             </>
             : <>
             {/*<textarea id="certTxt"  rows="10" cols="70" value={"Certificate file text"}></textarea>*/}
             </>}
-          </div> 
-        
+          </div>
+                  
           <div>{message ? <>
             <p id="keyHead">Here is the Certificate's serial number </p>
             <textarea id="serial"  rows="4" cols="70" value={serial}></textarea>
@@ -291,6 +301,7 @@ function Form() {
           <br/>
         <div>
       </div>
+      
       <div id="metamask">        
         <container id="metacont">
           <button id="clearAll" onClick={refreshPage}>Clear all</button>
